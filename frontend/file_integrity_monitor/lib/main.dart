@@ -82,11 +82,11 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> addFileToMonitor() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-    
+
     if (result != null && result.files.single.path != null) {
       String filePath = result.files.single.path!;
       String email = emailController.text.trim();
-      
+
       if (email.isEmpty) {
         _showSnackBar('Please enter your email address');
         return;
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         );
 
         final data = json.decode(response.body);
-        
+
         if (data['success']) {
           _showSnackBar('File added to monitoring successfully!');
           loadMonitoredFiles();
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
       );
 
       final data = json.decode(response.body);
-      
+
       if (data['success']) {
         _showSnackBar('File removed from monitoring');
         loadMonitoredFiles();
@@ -214,8 +214,10 @@ class _HomePageState extends State<HomePage> {
                         icon: Icon(Icons.add_circle),
                         label: Text('Add File to Monitor'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[800],
-                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          backgroundColor:
+                              const Color.fromARGB(255, 140, 143, 146),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -226,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            
+
             // Tabs Section
             Expanded(
               child: DefaultTabController(
@@ -259,7 +261,8 @@ class _HomePageState extends State<HomePage> {
                                 : monitoredFiles.isEmpty
                                     ? Center(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.folder_open,
@@ -281,10 +284,12 @@ class _HomePageState extends State<HomePage> {
                                         itemBuilder: (context, index) {
                                           final file = monitoredFiles[index];
                                           return Card(
-                                            margin: EdgeInsets.symmetric(vertical: 5),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5),
                                             elevation: 3,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
                                             child: ListTile(
                                               leading: Icon(
@@ -293,43 +298,56 @@ class _HomePageState extends State<HomePage> {
                                                 size: 30,
                                               ),
                                               title: Text(
-                                                file['file_path'].split('/').last,
-                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                                file['file_path']
+                                                    .split('/')
+                                                    .last,
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               subtitle: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Path: ${file['file_path']}',
-                                                    style: TextStyle(fontSize: 12),
+                                                    style:
+                                                        TextStyle(fontSize: 12),
                                                   ),
                                                   Text(
                                                     'Hash: ${file['file_hash'].substring(0, 16)}...',
-                                                    style: TextStyle(fontSize: 10, fontFamily: 'Courier'),
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontFamily: 'Courier'),
                                                   ),
                                                   Text(
                                                     'Modified: ${file['last_modified']}',
-                                                    style: TextStyle(fontSize: 10),
+                                                    style:
+                                                        TextStyle(fontSize: 10),
                                                   ),
                                                 ],
                                               ),
                                               trailing: IconButton(
-                                                icon: Icon(Icons.delete, color: Colors.red),
-                                                onPressed: () => removeFileFromMonitor(file['file_path']),
+                                                icon: Icon(Icons.delete,
+                                                    color: Colors.red),
+                                                onPressed: () =>
+                                                    removeFileFromMonitor(
+                                                        file['file_path']),
                                               ),
                                             ),
                                           );
                                         },
                                       ),
                           ),
-                          
+
                           // Alerts Tab
                           Container(
                             padding: EdgeInsets.all(15),
                             child: alerts.isEmpty
                                 ? Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.check_circle,
@@ -351,12 +369,15 @@ class _HomePageState extends State<HomePage> {
                                     itemBuilder: (context, index) {
                                       final alert = alerts[index];
                                       return Card(
-                                        margin: EdgeInsets.symmetric(vertical: 5),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
                                         elevation: 3,
                                         color: Colors.red[50],
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side: BorderSide(color: Colors.red[200]!),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          side: BorderSide(
+                                              color: Colors.red[200]!),
                                         ),
                                         child: ListTile(
                                           leading: Icon(
@@ -372,7 +393,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                           subtitle: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'File: ${alert['file_path']}',
@@ -385,7 +407,8 @@ class _HomePageState extends State<HomePage> {
                                               if (alert['details'] != null)
                                                 Text(
                                                   'Details: ${alert['details']}',
-                                                  style: TextStyle(fontSize: 10),
+                                                  style:
+                                                      TextStyle(fontSize: 10),
                                                 ),
                                             ],
                                           ),
